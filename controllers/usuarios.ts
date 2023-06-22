@@ -38,8 +38,7 @@ export const postUsuario = async (req : Request, res : Response) => {
                 msg: 'Ya existe un usuario con el email: ' + body.email
             });
         }
-        const usuario = Usuario.build(body);
-        await usuario.save();
+        const usuario = await saveUser(body);
         res.json(usuario);
     } catch (error) {
         console.log(error);
@@ -56,15 +55,12 @@ export const putUsuario = async (req : Request, res : Response) => {
     const {body} = req;
 
     try {
-        const usuario = await Usuario.findByPk(id);
+        const usuario = await updateUser(id, body);
         if (!usuario) {
             return res.status(404).json({
                 msg : 'No existe el usuario con el id: ' + id
             });
         }
-
-        await usuario.update(body);
-        
         res.json(usuario);
     } catch (error) {
         console.log(error);
@@ -79,19 +75,56 @@ export const deletetUsuario = async (req : Request, res : Response) => {
 
     const {id} = req.params;
 
-    const usuario = await Usuario.findByPk(id);
+    const usuario = await deleteUser(id);
     if (!usuario) {
         return res.status(404).json({
             msg : 'No existe el usuario con el id: ' + id
         });
     }
 
+    res.json(usuario);
+
+}
+
+export async function existEmail (email:string)  {
+    const emailExist = await Usuario.findOne({
+        where: {
+            email: email
+        }
+    });
+
+    if (emailExist) {
+        return true;
+    }
+    return false;
+}
+
+export async function saveUser (body:any)  {
+    const usuario = await Usuario.create(body);
+    return usuario;
+}
+
+export async function updateUser (id:string, body:any)  {
+    const usuario = await Usuario.findByPk(id);
+    if (!usuario) {
+        return false;
+    }
+
+    await usuario.update(body);
+    return usuario;
+}
+
+export async function deleteUser (id:string)  {
+    const usuario = await Usuario.findByPk(id);
+    if (!usuario) {
+        return false;
+    }
+
     await usuario.update({
         estado: false
     });
 
-    res.json(usuario);
-
+    return usuario;
 }
 
 

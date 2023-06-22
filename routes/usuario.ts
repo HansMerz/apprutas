@@ -11,12 +11,12 @@ router.put('/:id', putUsuario);
 router.delete('/:id', deletetUsuario);
 
 
-const getUser = publicProcedure.query(() => {
+/*const getUser = publicProcedure.query(() => {
     return getUsuarios;
 });
 
 export const userRoutes = routerTrpc({
     get: getUser
-});
+});*/
 
 export default router;

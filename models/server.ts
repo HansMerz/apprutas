@@ -1,5 +1,6 @@
 import express, {Application} from 'express';
-import userRoutes, {userRoutes as routesTrpc} from '../routes/usuario';
+import userRoutes/*, {userRoutes as routesTrpc}*/ from '../routes/usuario';
+import estudianteRoutes from '../routes/estudiante';
 import cors from 'cors';
 import db from '../db/connection';
 //import * as trpcExpress from '@trpc/server/adapters/express';
@@ -11,7 +12,8 @@ class Server {
     private port: string;
     //private appRouter;
     private apiPaths = {
-        usuarios: '/api/usuarios'
+        usuarios: '/api/usuarios',
+        estudiantes: '/api/estudiantes'
     }
 
     constructor(){
@@ -46,6 +48,7 @@ class Server {
 
     routes() {
         this.app.use(this.apiPaths.usuarios, userRoutes);
+        this.app.use(this.apiPaths.estudiantes, estudianteRoutes);
     }
 
     listen() {

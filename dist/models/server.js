@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const usuario_1 = __importDefault(require("../routes/usuario"));
+const estudiante_1 = __importDefault(require("../routes/estudiante"));
 const cors_1 = __importDefault(require("cors"));
 const connection_1 = __importDefault(require("../db/connection"));
 //import * as trpcExpress from '@trpc/server/adapters/express';
@@ -22,7 +23,8 @@ class Server {
     constructor() {
         //private appRouter;
         this.apiPaths = {
-            usuarios: '/api/usuarios'
+            usuarios: '/api/usuarios',
+            estudiantes: '/api/estudiantes'
         };
         this.app = (0, express_1.default)();
         this.port = process.env.PORT || '8000';
@@ -52,6 +54,7 @@ class Server {
     }
     routes() {
         this.app.use(this.apiPaths.usuarios, usuario_1.default);
+        this.app.use(this.apiPaths.estudiantes, estudiante_1.default);
     }
     listen() {
         this.app.listen(this.port, () => {

@@ -1,5 +1,6 @@
 import {DataTypes} from 'sequelize';
 import db from '../db/connection';
+import Estudiante from './estudiante';
 
 
 const Usuario = db.define('Usuario', {
@@ -13,5 +14,6 @@ const Usuario = db.define('Usuario', {
         type: DataTypes.BOOLEAN
     }
 });
+
 
 export default Usuario;
